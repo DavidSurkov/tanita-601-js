@@ -1,0 +1,31 @@
+{
+  "name": "tanita-js",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "start": "pnpm run dev",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.33.0",
+  "dependencies": {
+    "react": "19.2.6",
+    "react-dom": "19.2.6",
+    "react-router": "7.17.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "4.3.0",
+    "@types/react": "19.2.15",
+    "@types/react-dom": "19.2.3",
+    "tailwindcss": "4.3.0",
+    "typescript": "6.0.3",
+    "vite": "8.0.14"
+  }
+}

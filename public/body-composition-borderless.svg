@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" fill="none">
+  <defs>
+    <linearGradient id="bgGrad" x1="120" y1="120" x2="904" y2="904" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#243C5A"/>
+      <stop offset="0.55" stop-color="#102843"/>
+      <stop offset="1" stop-color="#051A33"/>
+    </linearGradient>
+    <linearGradient id="cyanGrad" x1="286" y1="324" x2="740" y2="730" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#22F0EC"/>
+      <stop offset="0.55" stop-color="#24D3F7"/>
+      <stop offset="1" stop-color="#1167FF"/>
+    </linearGradient>
+    <linearGradient id="padGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#E6E6EA"/>
+      <stop offset="0.2" stop-color="#F8F8FA"/>
+      <stop offset="0.45" stop-color="#D7D8DD"/>
+      <stop offset="0.7" stop-color="#F5F5F7"/>
+      <stop offset="1" stop-color="#C9CAD0"/>
+    </linearGradient>
+    <filter id="shadow" x="0" y="0" width="1024" height="1024" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="12" stdDeviation="18" flood-color="#00111f" flood-opacity="0.28"/>
+    </filter>
+    <filter id="softShadow" x="0" y="0" width="1024" height="1024" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="5" stdDeviation="8" flood-color="#000000" flood-opacity="0.28"/>
+    </filter>
+    <filter id="glow" x="0" y="0" width="1024" height="1024" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <clipPath id="scaleClip">
+      <rect x="18" y="18" width="988" height="988" rx="122"/>
+    </clipPath>
+  </defs>
+
+  <g filter="url(#shadow)">
+    <rect x="18" y="18" width="988" height="988" rx="122" fill="url(#bgGrad)"/>
+    <rect x="25" y="25" width="974" height="974" rx="115" stroke="#2D4767" stroke-opacity="0.65" stroke-width="4"/>
+    <rect x="36" y="36" width="952" height="952" rx="106" stroke="#0A1930" stroke-opacity="0.9" stroke-width="6"/>
+  </g>
+
+  <g filter="url(#softShadow)">
+    <rect x="79" y="96" width="150" height="284" rx="48" fill="url(#padGrad)"/>
+    <rect x="795" y="96" width="150" height="284" rx="48" fill="url(#padGrad)"/>
+    <rect x="79" y="644" width="150" height="284" rx="48" fill="url(#padGrad)"/>
+    <rect x="795" y="644" width="150" height="284" rx="48" fill="url(#padGrad)"/>
+
+    <rect x="79" y="96" width="150" height="284" rx="48" stroke="#F5F6F9" stroke-width="3" opacity="0.75"/>
+    <rect x="795" y="96" width="150" height="284" rx="48" stroke="#F5F6F9" stroke-width="3" opacity="0.75"/>
+    <rect x="79" y="644" width="150" height="284" rx="48" stroke="#F5F6F9" stroke-width="3" opacity="0.75"/>
+    <rect x="795" y="644" width="150" height="284" rx="48" stroke="#F5F6F9" stroke-width="3" opacity="0.75"/>
+
+    <g opacity="0.18">
+      <path d="M105 110V366M116 110V366M127 110V366M138 110V366M149 110V366M160 110V366M171 110V366M182 110V366M193 110V366M204 110V366" stroke="#8F949C" stroke-width="2"/>
+      <path d="M821 110V366M832 110V366M843 110V366M854 110V366M865 110V366M876 110V366M887 110V366M898 110V366M909 110V366M920 110V366" stroke="#8F949C" stroke-width="2"/>
+      <path d="M105 658V914M116 658V914M127 658V914M138 658V914M149 658V914M160 658V914M171 658V914M182 658V914M193 658V914M204 658V914" stroke="#8F949C" stroke-width="2"/>
+      <path d="M821 658V914M832 658V914M843 658V914M854 658V914M865 658V914M876 658V914M887 658V914M898 658V914M909 658V914M920 658V914" stroke="#8F949C" stroke-width="2"/>
+    </g>
+  </g>
+
+  <g filter="url(#glow)" stroke="url(#cyanGrad)" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <!-- circular segmented ring -->
+    <path d="M337 334c-49 28-90 70-117 122"/>
+    <path d="M212 490c-4 31-4 63 0 94"/>
+    <path d="M228 620c25 52 65 98 115 130"/>
+    <path d="M396 850c77 23 155 23 232 0"/>
+    <path d="M684 750c48-32 87-75 113-127"/>
+    <path d="M814 578c4-30 4-60 0-90"/>
+    <path d="M796 456c-27-54-67-97-117-124"/>
+
+    <!-- head -->
+    <ellipse cx="512" cy="286" rx="71" ry="93"/>
+
+    <!-- shoulders / body outline -->
+    <path d="M453 411c-11 23-41 33-80 40-44 8-67 43-67 95v190"/>
+    <path d="M571 411c11 23 41 33 80 40 44 8 67 43 67 95v190"/>
+    <path d="M387 539c0 41 16 51 16 86 0 21-2 51-14 88"/>
+    <path d="M637 539c0 41-16 51-16 86 0 21 2 51 14 88"/>
+
+    <!-- abdominal markers -->
+    <path d="M454 561h116"/>
+    <path d="M468 615h96"/>
+    <path d="M476 670h84"/>
+    <path d="M486 730h62"/>
+  </g>
+</svg>

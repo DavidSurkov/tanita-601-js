@@ -1,0 +1,38 @@
+@layer base {
+  html {
+    background: var(--bg);
+  }
+
+  body {
+    min-width: 320px;
+    min-height: 100vh;
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    letter-spacing: 0;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
+
+  button {
+    border: 0;
+  }
+
+  :focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 3px var(--primary-soft),
+      0 0 0 1px var(--primary);
+  }
+
+  td,
+  .numeric {
+    font-variant-numeric: tabular-nums;
+  }
+}

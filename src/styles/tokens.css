@@ -1,0 +1,203 @@
+:root,
+[data-theme="light"] {
+  color-scheme: light;
+
+  --bg: #f6f9fc;
+  --surface: #ffffff;
+  --surface-muted: #eef4f8;
+  --surface-raised: #ffffff;
+
+  --text: #0f1f33;
+  --text-muted: #64748b;
+  --text-soft: #94a3b8;
+  --text-inverted: #ffffff;
+
+  --primary: #0ea5e9;
+  --primary-hover: #0284c7;
+  --primary-active: #0369a1;
+  --primary-soft: #e0f2fe;
+  --primary-border: #7dd3fc;
+
+  --accent: #14b8a6;
+  --accent-hover: #0d9488;
+  --accent-soft: #ccfbf1;
+
+  --success: #22c55e;
+  --success-soft: #dcfce7;
+  --success-text: #166534;
+
+  --warning: #f59e0b;
+  --warning-soft: #fef3c7;
+  --warning-text: #92400e;
+
+  --danger: #ef4444;
+  --danger-soft: #fee2e2;
+  --danger-text: #991b1b;
+
+  --border: #d8e2ea;
+  --border-strong: #b8c7d4;
+
+  --table-header: #eef4f8;
+  --table-row-hover: #f1f7fb;
+  --table-row-selected: #e0f2fe;
+
+  --chart-grid: #d8e2ea;
+  --chart-axis: #94a3b8;
+  --chart-weight: #0ea5e9;
+  --chart-fat: #f97316;
+  --chart-muscle: #14b8a6;
+  --chart-water: #38bdf8;
+  --chart-bmi: #8b5cf6;
+  --chart-bone: #64748b;
+  --chart-metabolic-age: #eab308;
+
+  --shadow-sm: 0 1px 2px rgba(15, 31, 51, 0.06);
+  --shadow-md: 0 6px 20px rgba(15, 31, 51, 0.08);
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: #08111f;
+  --surface: #0f1b2d;
+  --surface-muted: #16263d;
+  --surface-raised: #13243a;
+
+  --text: #e5edf6;
+  --text-muted: #94a3b8;
+  --text-soft: #64748b;
+  --text-inverted: #08111f;
+
+  --primary: #38bdf8;
+  --primary-hover: #0ea5e9;
+  --primary-active: #0284c7;
+  --primary-soft: #082f49;
+  --primary-border: #075985;
+
+  --accent: #2dd4bf;
+  --accent-hover: #14b8a6;
+  --accent-soft: #134e4a;
+
+  --success: #4ade80;
+  --success-soft: #14532d;
+  --success-text: #bbf7d0;
+
+  --warning: #fbbf24;
+  --warning-soft: #422006;
+  --warning-text: #fde68a;
+
+  --danger: #f87171;
+  --danger-soft: #450a0a;
+  --danger-text: #fecaca;
+
+  --border: #24364f;
+  --border-strong: #39516f;
+
+  --table-header: #16263d;
+  --table-row-hover: #13233a;
+  --table-row-selected: #082f49;
+
+  --chart-grid: #24364f;
+  --chart-axis: #64748b;
+  --chart-weight: #38bdf8;
+  --chart-fat: #fb923c;
+  --chart-muscle: #2dd4bf;
+  --chart-water: #7dd3fc;
+  --chart-bmi: #a78bfa;
+  --chart-bone: #94a3b8;
+  --chart-metabolic-age: #facc15;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.28);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+:root {
+  --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  --font-xs: 12px;
+  --font-sm: 14px;
+  --font-md: 16px;
+  --font-lg: 20px;
+  --font-xl: 28px;
+  --font-2xl: 36px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-pill: 999px;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-surface-raised: var(--surface-raised);
+
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
+  --color-text-soft: var(--text-soft);
+  --color-text-inverted: var(--text-inverted);
+
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-active: var(--primary-active);
+  --color-primary-soft: var(--primary-soft);
+  --color-primary-border: var(--primary-border);
+
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-soft: var(--accent-soft);
+
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-success-text: var(--success-text);
+
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-warning-text: var(--warning-text);
+
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-danger-text: var(--danger-text);
+
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+
+  --color-table-header: var(--table-header);
+  --color-table-row-hover: var(--table-row-hover);
+  --color-table-row-selected: var(--table-row-selected);
+
+  --color-chart-grid: var(--chart-grid);
+  --color-chart-axis: var(--chart-axis);
+  --color-chart-weight: var(--chart-weight);
+  --color-chart-fat: var(--chart-fat);
+  --color-chart-muscle: var(--chart-muscle);
+  --color-chart-water: var(--chart-water);
+  --color-chart-bmi: var(--chart-bmi);
+  --color-chart-bone: var(--chart-bone);
+  --color-chart-metabolic-age: var(--chart-metabolic-age);
+
+  --text-xs: var(--font-xs);
+  --text-sm: var(--font-sm);
+  --text-base: var(--font-md);
+  --text-lg: var(--font-lg);
+  --text-xl: var(--font-xl);
+  --text-2xl: var(--font-2xl);
+
+  --spacing-1: var(--space-1);
+  --spacing-2: var(--space-2);
+  --spacing-3: var(--space-3);
+  --spacing-4: var(--space-4);
+  --spacing-5: var(--space-5);
+  --spacing-6: var(--space-6);
+  --spacing-8: var(--space-8);
+}
