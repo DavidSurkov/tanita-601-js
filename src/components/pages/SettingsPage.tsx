@@ -1,4 +1,8 @@
-import { useHandleTanitaFolderOpen } from "../../hooks/useHandleTanitaFolderOpen";
+import {
+  useExport,
+  useHandleTanitaFolderOpen,
+  useImport,
+} from "../../hooks/useHandleTanitaFolderOpen";
 import { Badge } from "../ui/Badge";
 import { Button } from "../ui/Button";
 import { Heading } from "../wrappers/Heading";
@@ -7,6 +11,9 @@ import { Text } from "../wrappers/Text";
 
 export function SettingsPage() {
   const onFolderPickBtnClick = useHandleTanitaFolderOpen();
+  const onImportBtnClick = useImport();
+  const onExportBtnClick = useExport();
+
   return (
     <Stack gap="lg">
       <section className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
@@ -24,12 +31,12 @@ export function SettingsPage() {
           <Heading as="h3" size="sm">
             Import Source
           </Heading>
-          <Text className="mt-2">Tanita GRAPHV1 folder exports</Text>
           <div className="flex flex-wrap items-center gap-2">
             <Button onClick={onFolderPickBtnClick} variant="primary">
               Open Tanita folder
             </Button>
-            <Button>Export</Button>
+            <Button onClick={onImportBtnClick}>Import JSON</Button>
+            <Button onClick={onExportBtnClick}>Export</Button>
           </div>
         </div>
 
