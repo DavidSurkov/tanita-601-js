@@ -2,11 +2,8 @@ import { NavLink, Navigate, Route, Routes } from "react-router";
 import { DashboardPage } from "./components/pages/DashboardPage";
 import { SettingsPage } from "./components/pages/SettingsPage";
 import { UserPage } from "./components/pages/UserPage";
-import { Badge } from "./components/ui/Badge";
-import { Heading } from "./components/wrappers/Heading";
 import { Stack } from "./components/wrappers/Stack";
 import { Container } from "./components/wrappers/Container";
-import { useUserMeasurements } from "./context";
 
 const navLinkClassName = ({ isActive }: { isActive: boolean }) => {
   const activeClassName = "border-primary-border bg-primary-soft text-primary";
@@ -20,7 +17,6 @@ const navLinkClassName = ({ isActive }: { isActive: boolean }) => {
 };
 
 export function App() {
-  const { userMeasurements } = useUserMeasurements();
   return (
     <div className="flex min-h-screen flex-col bg-bg text-text">
       <header className="border-b border-border bg-surface p-5">

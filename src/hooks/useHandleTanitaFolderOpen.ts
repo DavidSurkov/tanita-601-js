@@ -4,11 +4,10 @@ import { getErrorMessage } from "../helpers/error";
 import {
   getRawUsersRecords,
   userMeasurementFromRaw,
-  type RawUserRecord,
   type UserData,
 } from "../logic/parser";
 import { findTanitaFilesInFolder } from "../logic/walkDir";
-import { success, failure, type ResultAsync, type Result } from "../result";
+import { success, failure, type ResultAsync } from "../result";
 
 async function openFolderSelectDialog(): ResultAsync<FileSystemDirectoryHandle> {
   try {
@@ -23,29 +22,11 @@ async function openFolderSelectDialog(): ResultAsync<FileSystemDirectoryHandle> 
   }
 }
 
-const stroreRawUsersDataToLS = (data: RawUserRecord[]) => {
-  localStorage.setItem("rawUsersRecords", JSON.stringify(data));
-};
-
-export const getRawUsersDataFromLS = (): Result<RawUserRecord[]> => {
-  const res = localStorage.getItem("rawUsersRecords");
-  if (!res) {
-    return failure({ message: "Local storage does not have users records" });
-  }
-  try {
-    return success(JSON.parse(res) as RawUserRecord[]);
-  } catch (error) {
-    return failure({
-      message: getErrorMessage(error, "error happened during parsing"),
-    });
-  }
-};
-
 type ButtonClickHandle = () => void;
 
 export function useHandleTanitaFolderOpen(): ButtonClickHandle {
   const { setToast } = useToast();
-  const { setUserMeasurements } = useUserMeasurements();
+  const { setUserMeasurements, stroreRawUsersDataToLS } = useUserMeasurements();
 
   return async () => {
     const dialogResult = await openFolderSelectDialog();

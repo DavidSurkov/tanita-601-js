@@ -6,12 +6,19 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { userMeasurementFromRaw, type UserData } from "../logic/parser";
-import { getRawUsersDataFromLS } from "../hooks/useHandleTanitaFolderOpen";
+import {
+  userMeasurementFromRaw,
+  type RawUserRecord,
+  type UserData,
+} from "../logic/parser";
+import { failure, type Result, success } from "../result";
+import { getErrorMessage } from "../helpers/error";
 
 type UserMeasurementsContextValue = {
   userMeasurements: UserData[];
   setUserMeasurements: (data: UserData[]) => void;
+  stroreRawUsersDataToLS: (data: RawUserRecord[]) => void;
+  getRawUsersDataFromLS: () => Result<RawUserRecord[]>;
 };
 
 type UserMeasurementsProviderProps = {
@@ -20,6 +27,26 @@ type UserMeasurementsProviderProps = {
 
 const UserMeasurementsContext =
   createContext<UserMeasurementsContextValue | null>(null);
+
+const USERS_LS_KEY = "rawUsersRecords";
+
+const stroreRawUsersDataToLS = (data: RawUserRecord[]) => {
+  localStorage.setItem(USERS_LS_KEY, JSON.stringify(data));
+};
+
+const getRawUsersDataFromLS = (): Result<RawUserRecord[]> => {
+  const res = localStorage.getItem(USERS_LS_KEY);
+  if (!res) {
+    return failure({ message: "Local storage does not have users records" });
+  }
+  try {
+    return success(JSON.parse(res) as RawUserRecord[]);
+  } catch (error) {
+    return failure({
+      message: getErrorMessage(error, "error happened during parsing"),
+    });
+  }
+};
 
 export function UserMeasurementsProvider({
   children,
@@ -47,6 +74,8 @@ export function UserMeasurementsProvider({
         setUserMeasurements: (data) => {
           setUserMeasurements(data);
         },
+        stroreRawUsersDataToLS,
+        getRawUsersDataFromLS,
       },
     },
     children,
