@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router';
 import { App } from './App';
 import { ToastProvider } from './components/Toast';
 import { UserMeasurementsProvider } from './context';
+import { registerServiceWorker } from './registerServiceWorker';
 import './styles.css';
 
 const rootElement = document.getElementById('root');
@@ -27,3 +28,5 @@ createRoot(rootElement).render(
     ),
   ),
 );
+
+registerServiceWorker();

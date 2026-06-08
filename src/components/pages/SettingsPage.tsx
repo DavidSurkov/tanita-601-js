@@ -3,6 +3,8 @@ import {
   useHandleTanitaFolderOpen,
   useImport,
 } from "../../hooks/useHandleTanitaFolderOpen";
+import { usePwaInstallPrompt } from "../../hooks/usePwaInstallPrompt";
+import { useToast } from "../Toast";
 import { Badge } from "../ui/Badge";
 import { Button } from "../ui/Button";
 import { Heading } from "../wrappers/Heading";
@@ -10,9 +12,25 @@ import { Stack } from "../wrappers/Stack";
 import { Text } from "../wrappers/Text";
 
 export function SettingsPage() {
+  const { setToast } = useToast();
   const onFolderPickBtnClick = useHandleTanitaFolderOpen();
   const onImportBtnClick = useImport();
   const onExportBtnClick = useExport();
+  const pwaInstallPrompt = usePwaInstallPrompt();
+
+  const onInstallBtnClick = async () => {
+    const didShowPrompt = await pwaInstallPrompt.install();
+
+    if (didShowPrompt) {
+      return;
+    }
+
+    setToast({
+      message:
+        "Install from the browser menu. On iPhone or iPad, use Share > Add to Home Screen.",
+      type: "warning",
+    });
+  };
 
   return (
     <Stack gap="lg">
@@ -47,6 +65,11 @@ export function SettingsPage() {
           <Text className="mt-2">
             Imported measurements remain in this browser session.
           </Text>
+          <div className="mt-3">
+            <Button onClick={onInstallBtnClick} variant="primary">
+              Install App
+            </Button>
+          </div>
         </div>
       </section>
     </Stack>
