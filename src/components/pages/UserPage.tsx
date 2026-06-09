@@ -10,6 +10,7 @@ import { useUserMeasurements } from "../../context";
 import type { Measurement, UserData } from "../../logic/parser";
 import { useEffect, useMemo, useState } from "react";
 import { Box } from "../wrappers/Box";
+import { Table } from "../ui/Table";
 
 type MeasurementColumnKey = keyof Measurement;
 
@@ -181,7 +182,7 @@ function formatOptionalPercent(value: number | null): string {
   return value === null ? "-" : `${numberFormat.format(value)}%`;
 }
 
-const Table = ({
+const Tableeee = ({
   measurements,
 }: {
   measurements: UserData["measurements"];
@@ -221,7 +222,7 @@ const Table = ({
 
   return (
     <section className="overflow-clip rounded-lg border border-border bg-surface shadow-(--shadow-sm)">
-      <div className="flex justify-between border-b border-border px-4 py-3">
+      <Box className="flex justify-between border-b border-border px-4 py-3">
         <Heading as="h3" size="sm">
           Measurements
         </Heading>
@@ -234,8 +235,8 @@ const Table = ({
           }))}
           selectedValues={selectedColumnKeys}
         />
-      </div>
-      <div className="overflow-x-auto">
+      </Box>
+      <Box className="overflow-x-auto">
         <table className="w-full min-w-[880px] border-collapse text-left text-sm">
           <thead className="bg-table-header text-text-muted">
             <tr>
@@ -272,14 +273,14 @@ const Table = ({
             )}
           </tbody>
         </table>
-      </div>
-      <div className="border-t border-border px-4 py-3">
+      </Box>
+      <Box className="border-t border-border px-4 py-3">
         <Pagination
           currentPage={clampedCurrentPage}
           onPageChange={setCurrentPage}
           pageCount={pageCount}
         />
-      </div>
+      </Box>
     </section>
   );
 };
@@ -319,26 +320,26 @@ export function UserPage() {
       ) : (
         <>
           <section className="grid gap-4 md:grid-cols-3">
-            <div className="rounded-lg border border-border bg-surface p-4 shadow-(--shadow-sm)">
+            <Box className="rounded-lg border border-border bg-surface p-4 shadow-(--shadow-sm)">
               <p className="text-sm font-semibold text-text-muted">
                 Birth date
               </p>
               <p className="numeric mt-2 text-2xl font-bold text-text">
                 {user.profile.birthDate.toDateString()}
               </p>
-            </div>
-            <div className="rounded-lg border border-border bg-surface p-4 shadow-(--shadow-sm)">
+            </Box>
+            <Box className="rounded-lg border border-border bg-surface p-4 shadow-(--shadow-sm)">
               <p className="text-sm font-semibold text-text-muted">Height</p>
               <p className="numeric mt-2 text-2xl font-bold text-text">
                 {user.profile.heightCm} cm
               </p>
-            </div>
-            <div className="rounded-lg border border-border bg-surface p-4 shadow-(--shadow-sm)">
+            </Box>
+            <Box className="rounded-lg border border-border bg-surface p-4 shadow-(--shadow-sm)">
               <p className="text-sm font-semibold text-text-muted">Gender</p>
               <p className="mt-2 text-2xl font-bold capitalize text-text">
                 {String(user.profile.gender)}
               </p>
-            </div>
+            </Box>
           </section>
 
           <TrendChart
@@ -348,7 +349,13 @@ export function UserPage() {
             title="Trend Graph"
           />
 
-          <Table measurements={sortedMeasurements} />
+          <Table
+            records={sortedMeasurements}
+            columns={measurementColumns}
+            initialColumnKeys={defaultColumnKeys}
+            title="Measurements"
+            recordsPerPage={MEASUREMENTS_PER_PAGE}
+          />
         </>
       )}
     </Stack>

@@ -11,6 +11,7 @@ async function walkDir(
   visitor: FileSystemVisitor,
 ): Promise<void> {
   await visitor.enterDirectory?.(dirHandle);
+  // await visitor.visit?.(dirHandle);
   for await (const [, handle] of dirHandle.entries()) {
     if (handle.kind === "file") {
       await visitor.visitFile(handle);

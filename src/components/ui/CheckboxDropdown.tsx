@@ -1,19 +1,22 @@
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { joinClassNames } from "../wrappers/shared";
+import { fallbackInCaseOfSymbol } from "../../helpers/uuid";
 
-type CheckboxDropdownOption<TValue extends string> = {
+type ObjKey = string | number | symbol;
+
+type CheckboxDropdownOption<TValue extends ObjKey> = {
   label: ReactNode;
   value: TValue;
 };
 
-type CheckboxDropdownProps<TValue extends string> = {
+type CheckboxDropdownProps<TValue extends ObjKey> = {
   label: string;
   options: Array<CheckboxDropdownOption<TValue>>;
   selectedValues: TValue[];
   onSelectedValuesChange(selectedValues: TValue[]): void;
 };
 
-export function CheckboxDropdown<TValue extends string>({
+export function CheckboxDropdown<TValue extends ObjKey>({
   label,
   options,
   selectedValues,
@@ -94,7 +97,7 @@ export function CheckboxDropdown<TValue extends string>({
                   "flex cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-text transition hover:bg-surface-muted",
                   checked && "bg-primary-soft text-primary",
                 )}
-                key={option.value}
+                key={fallbackInCaseOfSymbol(option.value)}
               >
                 <input
                   checked={checked}

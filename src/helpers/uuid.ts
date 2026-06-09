@@ -5,3 +5,10 @@ export function generateRandomUUID(): string {
 
   return `${Date.now()}-${Math.random().toString(36).slice(2)}`;
 }
+
+export const fallbackInCaseOfSymbol = (
+  value: symbol | string | number,
+): string | number => {
+  if (typeof value === "symbol") return generateRandomUUID();
+  return value;
+};
