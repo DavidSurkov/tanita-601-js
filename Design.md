@@ -2,7 +2,7 @@
 
 ## 1. Product Design Direction
 
-The app should feel like a clean health-tech dashboard: precise, calm, technical, and trustworthy. It will contain many tables, buttons, metric cards, and graphs, so the design must prioritize readability, spacing, contrast, and predictable visual hierarchy.
+The app should feel like a clean health-tech workspace: precise, calm, technical, and trustworthy. It will contain many tables, buttons, metric cards, and graphs, so the design must prioritize readability, spacing, contrast, and predictable visual hierarchy.
 
 The visual direction is based on **Option 1: Tanita Tech Blue**, extended with a matching dark theme.
 
@@ -11,7 +11,7 @@ The visual direction is based on **Option 1: Tanita Tech Blue**, extended with a
 - Health-tech
 - Body metrics
 - Digital scale
-- Clean dashboard
+- Clean workspace
 - Data-heavy
 - Precise
 - Calm
@@ -330,7 +330,7 @@ Measurements Table
 
 ### Suggested Navigation
 
-- Dashboard
+- Home
 - Measurements
 - Trends
 - Users
@@ -862,7 +862,7 @@ Recommended empty-state icon:
 
 ## 20. App-Specific UI Recommendations
 
-### Main Dashboard
+### Main Home View
 
 Show:
 
@@ -1000,5 +1000,4 @@ Buttons: Rounded, compact, clear states
 Cards: Clean metric summaries with tabular numbers
 ```
 
-The app should feel like a precise body-composition dashboard, not a generic spreadsheet.
-
+The app should feel like a precise body-composition workspace, not a generic spreadsheet.

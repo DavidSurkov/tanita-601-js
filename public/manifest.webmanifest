@@ -1,8 +1,8 @@
 {
   "name": "Tanita JS",
   "short_name": "Tanita JS",
-  "description": "Local-first Tanita body composition dashboard.",
-  "start_url": "/dashboard",
+  "description": "Local-first Tanita body composition app.",
+  "start_url": "/home",
   "scope": "/",
   "display": "standalone",
   "background_color": "#F6F8FB",

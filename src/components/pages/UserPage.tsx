@@ -314,8 +314,8 @@ export function UserPage() {
         </Stack>
       </section>
       {!user ? (
-        <Link className="text-sm font-semibold text-primary" to="/dashboard">
-          Back to dashboard
+        <Link className="text-sm font-semibold text-primary" to="/home">
+          Back to home
         </Link>
       ) : (
         <>

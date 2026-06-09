@@ -8,7 +8,7 @@ import { useHandleTanitaFolderOpen } from "../../hooks/useHandleTanitaFolderOpen
 import { formatDate } from "../../helpers/date-time";
 import { Table } from "../ui/Table";
 
-export function DashboardPage() {
+export function HomePage() {
   const { userMeasurements } = useUserMeasurements();
   const onFolderPickBtnClick = useHandleTanitaFolderOpen();
 
@@ -17,7 +17,7 @@ export function DashboardPage() {
       <section className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <Stack align="start" gap="xs">
           <Heading as="h2" size="md">
-            Dashboard
+            Home
           </Heading>
         </Stack>
         <Badge tone={userMeasurements.length === 0 ? "warning" : "good"}>
@@ -38,7 +38,7 @@ export function DashboardPage() {
             </Heading>
             <Text>
               Choose the Tanita export folder from the header to populate the
-              dashboard.
+              home page.
             </Text>
           </Stack>
         </section>
@@ -51,7 +51,7 @@ export function DashboardPage() {
             {
               render: (user) => formatDate(user.profile.birthDate),
               key: "birthDate",
-              label: "BD",
+              label: "Birth date",
             },
 
             {
@@ -71,7 +71,7 @@ export function DashboardPage() {
                 <NavLink to={`/users/${user.id}`}>{"--->"}</NavLink>
               ),
               key: "goto",
-              label: "",
+              label: "Navigate",
             },
           ]}
           initialColumnKeys={["birthDate", "heightCm", "gender", "goto"]}
