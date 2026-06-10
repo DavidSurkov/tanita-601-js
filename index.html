@@ -4,6 +4,35 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#102843" />
+    <script>
+      (() => {
+        const storageKey = "tanita-js-theme";
+        let storedTheme = null;
+
+        try {
+          storedTheme = localStorage.getItem(storageKey);
+        } catch {
+          storedTheme = null;
+        }
+
+        const hasDarkPreference = matchMedia(
+          "(prefers-color-scheme: dark)",
+        ).matches;
+        const theme =
+          storedTheme === "light" || storedTheme === "dark"
+            ? storedTheme
+            : hasDarkPreference
+              ? "dark"
+              : "light";
+        const themeColor = document.querySelector('meta[name="theme-color"]');
+
+        document.documentElement.dataset.theme = theme;
+
+        if (themeColor !== null && theme === "dark") {
+          themeColor.content = "#08111f";
+        }
+      })();
+    </script>
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="Tanita JS" />
     <meta name="apple-mobile-web-app-capable" content="yes" />

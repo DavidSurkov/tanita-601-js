@@ -4,7 +4,13 @@ import { SettingsPage } from "./components/pages/SettingsPage";
 import { UserPage } from "./components/pages/UserPage";
 import { Stack } from "./components/wrappers/Stack";
 import { Container } from "./components/wrappers/Container";
-import { HomeIcon, SettingsIcon } from "./components/ui/icons/Navigation";
+import {
+  HomeIcon,
+  MoonIcon,
+  SettingsIcon,
+  SunIcon,
+} from "./components/ui/icons/Navigation";
+import { useTheme } from "./hooks/useTheme";
 
 const navLinkClassName = ({ isActive }: { isActive: boolean }) => {
   const activeClassName = "border-primary-border bg-primary-soft text-primary";
@@ -18,32 +24,49 @@ const navLinkClassName = ({ isActive }: { isActive: boolean }) => {
 };
 
 export function App() {
+  const { theme, toggleTheme } = useTheme();
+  const isDarkTheme = theme === "dark";
+
   return (
     <div className="flex min-h-screen flex-col bg-bg text-text">
       <header className="border-b border-border bg-surface p-5">
         <Container className="py-4 sm:py-5" size="lg">
           <Stack>
-            <nav
-              aria-label="Primary"
-              className="flex gap-2 overflow-x-auto pb-1"
-            >
-              <NavLink
-                aria-label="Home"
-                className={navLinkClassName}
-                title="Home"
-                to="/home"
+            <div className="flex items-center justify-between gap-3">
+              <nav aria-label="Primary" className="flex gap-2 overflow-x-auto">
+                <NavLink
+                  aria-label="Home"
+                  className={navLinkClassName}
+                  title="Home"
+                  to="/home"
+                >
+                  <HomeIcon />
+                </NavLink>
+                <NavLink
+                  aria-label="Settings"
+                  className={navLinkClassName}
+                  title="Settings"
+                  to="/settings"
+                >
+                  <SettingsIcon />
+                </NavLink>
+              </nav>
+
+              <button
+                aria-label={
+                  isDarkTheme ? "Switch to light theme" : "Switch to dark theme"
+                }
+                aria-pressed={isDarkTheme}
+                className="inline-flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-[10px] border border-border bg-surface text-text-muted transition hover:bg-surface-muted hover:text-text"
+                onClick={toggleTheme}
+                title={
+                  isDarkTheme ? "Switch to light theme" : "Switch to dark theme"
+                }
+                type="button"
               >
-                <HomeIcon />
-              </NavLink>
-              <NavLink
-                aria-label="Settings"
-                className={navLinkClassName}
-                title="Settings"
-                to="/settings"
-              >
-                <SettingsIcon />
-              </NavLink>
-            </nav>
+                {isDarkTheme ? <SunIcon /> : <MoonIcon />}
+              </button>
+            </div>
           </Stack>
         </Container>
       </header>
