@@ -1,24 +1,18 @@
 import { Link, useParams } from "react-router";
-import { CheckboxDropdown } from "../ui/CheckboxDropdown";
-import { Pagination } from "../ui/Pagination";
 import { TrendChart } from "../ui/TrendChart";
 import type { MeasurementMetricKey } from "../ui/measurement-metrics";
 import { Heading } from "../wrappers/Heading";
 import { Stack } from "../wrappers/Stack";
 import { formatDateTime } from "../../helpers/date-time";
 import { useUserMeasurements } from "../../context";
-import type { Measurement, UserData } from "../../logic/parser";
-import { useEffect, useMemo, useState } from "react";
+import type { Measurement } from "../../logic/parser";
+import { useMemo, useState } from "react";
 import { Box } from "../wrappers/Box";
-import { Table } from "../ui/Table";
+import { Table, type Column } from "../ui/Table";
 
 type MeasurementColumnKey = keyof Measurement;
 
-type MeasurementColumn = {
-  key: MeasurementColumnKey;
-  label: string;
-  render(measurement: Measurement): string;
-};
+type MeasurementColumn = Column<Measurement>;
 
 const defaultColumnKeys: MeasurementColumnKey[] = [
   "measuredAt",
@@ -43,6 +37,7 @@ const measurementColumns: MeasurementColumn[] = [
     key: "measuredAt",
     label: "Date",
     render: (measurement) => formatDateTime(measurement.measuredAt),
+    sortValue: (record) => record.measuredAt,
   },
   {
     key: "ageYears",
@@ -64,6 +59,7 @@ const measurementColumns: MeasurementColumn[] = [
     key: "weightKg",
     label: "Weight",
     render: (measurement) => `${numberFormat.format(measurement.weightKg)} kg`,
+    sortValue: (record) => record.weightKg,
   },
   {
     key: "bmi",
@@ -74,6 +70,7 @@ const measurementColumns: MeasurementColumn[] = [
     key: "fatPercent",
     label: "Fat",
     render: (measurement) => `${numberFormat.format(measurement.fatPercent)}%`,
+    sortValue: (record) => record.fatPercent,
   },
   {
     key: "fatRightArmPct",
@@ -108,6 +105,7 @@ const measurementColumns: MeasurementColumn[] = [
     key: "musclePercent",
     label: "Muscle",
     render: (measurement) => formatOptionalPercent(measurement.musclePercent),
+    sortValue: (record) => record.musclePercent,
   },
   {
     key: "muscleRightArmPct",
@@ -181,109 +179,6 @@ function formatOptionalKg(value: number | null): string {
 function formatOptionalPercent(value: number | null): string {
   return value === null ? "-" : `${numberFormat.format(value)}%`;
 }
-
-const Tableeee = ({
-  measurements,
-}: {
-  measurements: UserData["measurements"];
-}) => {
-  const [selectedColumnKeys, setSelectedColumnKeys] =
-    useState<MeasurementColumnKey[]>(defaultColumnKeys);
-  const [currentPage, setCurrentPage] = useState(1);
-  const pageCount = Math.max(
-    1,
-    Math.ceil(measurements.length / MEASUREMENTS_PER_PAGE),
-  );
-  const clampedCurrentPage = Math.min(currentPage, pageCount);
-  const pageStartIndex = (clampedCurrentPage - 1) * MEASUREMENTS_PER_PAGE;
-  const paginatedMeasurements = measurements.slice(
-    pageStartIndex,
-    pageStartIndex + MEASUREMENTS_PER_PAGE,
-  );
-  const selectedColumns = useMemo(
-    () =>
-      measurementColumns.filter((column) =>
-        selectedColumnKeys.includes(column.key),
-      ),
-    [selectedColumnKeys],
-  );
-
-  useEffect(() => {
-    setCurrentPage((page) => Math.min(page, pageCount));
-  }, [pageCount]);
-
-  const onSelectedColumnKeysChange = (columnKeys: MeasurementColumnKey[]) => {
-    if (columnKeys.length === 0) {
-      return;
-    }
-
-    setSelectedColumnKeys(columnKeys);
-  };
-
-  return (
-    <section className="overflow-clip rounded-lg border border-border bg-surface shadow-(--shadow-sm)">
-      <Box className="flex justify-between border-b border-border px-4 py-3">
-        <Heading as="h3" size="sm">
-          Measurements
-        </Heading>
-        <CheckboxDropdown
-          label="Columns"
-          onSelectedValuesChange={onSelectedColumnKeysChange}
-          options={measurementColumns.map((column) => ({
-            label: column.label,
-            value: column.key,
-          }))}
-          selectedValues={selectedColumnKeys}
-        />
-      </Box>
-      <Box className="overflow-x-auto">
-        <table className="w-full min-w-[880px] border-collapse text-left text-sm">
-          <thead className="bg-table-header text-text-muted">
-            <tr>
-              {selectedColumns.map((column) => (
-                <th className="px-4 py-3 font-semibold" key={column.key}>
-                  {column.label}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {measurements.length === 0 ? (
-              <tr>
-                <td
-                  className="px-4 py-5 text-text-muted"
-                  colSpan={selectedColumns.length}
-                >
-                  No measurements imported
-                </td>
-              </tr>
-            ) : (
-              paginatedMeasurements.map((measurement) => (
-                <tr
-                  className="border-t border-border hover:bg-table-row-hover"
-                  key={measurement.measuredAt.toISOString()}
-                >
-                  {selectedColumns.map((column) => (
-                    <td className="numeric px-4 py-3" key={column.key}>
-                      {column.render(measurement)}
-                    </td>
-                  ))}
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </Box>
-      <Box className="border-t border-border px-4 py-3">
-        <Pagination
-          currentPage={clampedCurrentPage}
-          onPageChange={setCurrentPage}
-          pageCount={pageCount}
-        />
-      </Box>
-    </section>
-  );
-};
 
 export function UserPage() {
   const { userMeasurements } = useUserMeasurements();

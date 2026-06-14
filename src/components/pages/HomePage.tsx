@@ -52,6 +52,9 @@ export function HomePage() {
               render: (user) => formatDate(user.profile.birthDate),
               key: "birthDate",
               label: "Birth date",
+              sortValue(record) {
+                return record.profile.birthDate;
+              },
             },
 
             {

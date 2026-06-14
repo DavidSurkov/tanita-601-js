@@ -104,6 +104,11 @@ type TanitaPair = {
   data: File;
 };
 
+type TanitaRaw = ProfRaw & Omit<DataRaw, "extras">;
+type TanitaRawKey = keyof TanitaRaw;
+type TanitaRawValue = TanitaRaw[TanitaRawKey];
+type TanitaSymbol = keyof typeof tanitaSymbolsToJsStrategy;
+
 function getId(fileName: string): number | null {
   const name = fileName.toUpperCase();
 
@@ -132,149 +137,212 @@ function getId(fileName: string): number | null {
   return Number.isInteger(id) ? id : null;
 }
 
-function parseProfileCsvRow(row: string): ProfRaw {
-  const entries = row.split(",");
-  const profileRaw = createDefaultProfileRaw();
-
-  for (let keyPointer = 0; keyPointer + 1 < entries.length; keyPointer += 2) {
-    const key = entries[keyPointer] ?? "";
-    const value = entries[keyPointer + 1] ?? "";
-
-    switch (key) {
-      case "MO":
-        profileRaw.model = unquote(value);
-        break;
-      case "DB":
-        profileRaw.birthDateDmy = unquote(value);
-        break;
-      case "Bt":
-        profileRaw.bodyTypeCode = parseNumber(value);
-        break;
-      case "GE":
-        profileRaw.genderCode = parseNumber(value);
-        break;
-      case "Hm":
-        profileRaw.heightCm = parseNumber(value);
-        break;
-      case "AL":
-        profileRaw.activityLevelCode = parseNumber(value);
-        break;
-      case "CS":
-        profileRaw.checksum = unquote(value);
-        break;
-      default:
-        console.warn("[Profile] Extra key:", key, "value:", value);
-    }
+const tanitaSymbolsToJsStrategy = {
+  MO: {
+    key: "model",
+    parse: (value: string) => unquote(value),
+  },
+  DB: {
+    key: "birthDateDmy",
+    parse: (value: string) => unquote(value),
+  },
+  DT: {
+    key: "dateDmy",
+    parse: (value: string) => unquote(value),
+  },
+  Ti: {
+    key: "timeHms",
+    parse: (value: string) => unquote(value),
+  },
+  Bt: {
+    key: "bodyTypeCode",
+    parse: (value: string) => parseNumber(value),
+  },
+  GE: {
+    key: "genderCode",
+    parse: (value: string) => parseNumber(value),
+  },
+  Hm: {
+    key: "heightCm",
+    parse: (value: string) => parseNumber(value),
+  },
+  AL: {
+    key: "activityLevelCode",
+    parse: (value: string) => parseNumber(value),
+  },
+  AG: {
+    key: "ageYears",
+    parse: (value: string) => parseNumber(value),
+  },
+  Wk: {
+    key: "weightKg",
+    parse: (value: string) => parseNumber(value),
+  },
+  MI: {
+    key: "bmi",
+    parse: (value: string) => parseNumber(value),
+  },
+  FW: {
+    key: "fatPercent",
+    parse: (value: string) => parseNumber(value),
+  },
+  Fr: {
+    key: "fatRightArmPct",
+    parse: (value: string) => parseNumber(value),
+  },
+  Fl: {
+    key: "fatLeftArmPct",
+    parse: (value: string) => parseNumber(value),
+  },
+  FR: {
+    key: "fatRightLegPct",
+    parse: (value: string) => parseNumber(value),
+  },
+  FL: {
+    key: "fatLeftLegPct",
+    parse: (value: string) => parseNumber(value),
+  },
+  FT: {
+    key: "fatTrunkPct",
+    parse: (value: string) => parseNumber(value),
+  },
+  mW: {
+    key: "musclePercent",
+    parse: (value: string) => parseNumber(value),
+  },
+  ml: {
+    key: "muscleLeftArmPct",
+    parse: (value: string) => parseNumber(value),
+  },
+  mr: {
+    key: "muscleRightArmPct",
+    parse: (value: string) => parseNumber(value),
+  },
+  mR: {
+    key: "muscleRightLegPct",
+    parse: (value: string) => parseNumber(value),
+  },
+  mL: {
+    key: "muscleLeftLegPct",
+    parse: (value: string) => parseNumber(value),
+  },
+  mT: {
+    key: "muscleTrunkPct",
+    parse: (value: string) => parseNumber(value),
+  },
+  bW: {
+    key: "boneKg",
+    parse: (value: string) => parseNumber(value),
+  },
+  ww: {
+    key: "waterPercent",
+    parse: (value: string) => parseNumber(value),
+  },
+  IF: {
+    key: "visceralFatRating",
+    parse: (value: string) => parseNumber(value),
+  },
+  rA: {
+    key: "metabolicAgeYears",
+    parse: (value: string) => parseNumber(value),
+  },
+  rD: {
+    key: "dailyCalorieIntakeKcal",
+    parse: (value: string) => parseNumber(value),
+  },
+  CS: {
+    key: "checksum",
+    parse: (value: string) => unquote(value),
+  },
+} satisfies Record<
+  string,
+  {
+    key: TanitaRawKey;
+    parse: (value: string) => TanitaRawValue;
   }
+>;
 
-  return profileRaw;
+const profileTanitaSymbols = new Set<TanitaSymbol>([
+  "MO",
+  "DB",
+  "Bt",
+  "GE",
+  "Hm",
+  "AL",
+  "CS",
+]);
+
+const dataTanitaSymbols = new Set<TanitaSymbol>([
+  "MO",
+  "DT",
+  "Ti",
+  "GE",
+  "AG",
+  "Hm",
+  "AL",
+  "Bt",
+  "Wk",
+  "MI",
+  "FW",
+  "Fr",
+  "Fl",
+  "FR",
+  "FL",
+  "FT",
+  "mW",
+  "ml",
+  "mr",
+  "mR",
+  "mL",
+  "mT",
+  "bW",
+  "ww",
+  "IF",
+  "rA",
+  "rD",
+  "CS",
+]);
+
+function isTanitaSymbol(key: string): key is TanitaSymbol {
+  return key in tanitaSymbolsToJsStrategy;
 }
 
-function parseDataCsvRow(row: string): DataRaw {
-  const entries = row.split(",");
-  const dataRaw = createDefaultDataRaw();
-
-  for (let keyPointer = 0; keyPointer + 1 < entries.length; keyPointer += 2) {
-    const key = entries[keyPointer] ?? "";
-    const value = entries[keyPointer + 1] ?? "";
-
-    switch (key) {
-      case "MO":
-        dataRaw.model = unquote(value);
-        break;
-      case "DT":
-        dataRaw.dateDmy = unquote(value);
-        break;
-      case "Ti":
-        dataRaw.timeHms = unquote(value);
-        break;
-      case "GE":
-        dataRaw.genderCode = parseNumber(value);
-        break;
-      case "AG":
-        dataRaw.ageYears = parseNumber(value);
-        break;
-      case "Hm":
-        dataRaw.heightCm = parseNumber(value);
-        break;
-      case "AL":
-        dataRaw.activityLevelCode = parseNumber(value);
-        break;
-      case "Bt":
-        dataRaw.bodyTypeCode = parseNumber(value);
-        break;
-      case "Wk":
-        dataRaw.weightKg = parseNumber(value);
-        break;
-      case "MI":
-        dataRaw.bmi = parseNumber(value);
-        break;
-      case "FW":
-        dataRaw.fatPercent = parseNumber(value);
-        break;
-      case "Fr":
-        dataRaw.fatRightArmPct = parseNumber(value);
-        break;
-      case "Fl":
-        dataRaw.fatLeftArmPct = parseNumber(value);
-        break;
-      case "FR":
-        dataRaw.fatRightLegPct = parseNumber(value);
-        break;
-      case "FL":
-        dataRaw.fatLeftLegPct = parseNumber(value);
-        break;
-      case "FT":
-        dataRaw.fatTrunkPct = parseNumber(value);
-        break;
-      case "mW":
-        dataRaw.musclePercent = parseNumber(value);
-        break;
-      case "ml":
-        dataRaw.muscleLeftArmPct = parseNumber(value);
-        break;
-      case "mr":
-        dataRaw.muscleRightArmPct = parseNumber(value);
-        break;
-      case "mR":
-        dataRaw.muscleRightLegPct = parseNumber(value);
-        break;
-      case "mL":
-        dataRaw.muscleLeftLegPct = parseNumber(value);
-        break;
-      case "mT":
-        dataRaw.muscleTrunkPct = parseNumber(value);
-        break;
-      case "bW":
-        dataRaw.boneKg = parseNumber(value);
-        break;
-      case "ww":
-        dataRaw.waterPercent = parseNumber(value);
-        break;
-      case "IF":
-        dataRaw.visceralFatRating = parseNumber(value);
-        break;
-      case "rA":
-        dataRaw.metabolicAgeYears = parseNumber(value);
-        break;
-      case "rD":
-        dataRaw.dailyCalorieIntakeKcal = parseNumber(value);
-        break;
-      case "CS":
-        dataRaw.checksum = unquote(value);
-        break;
-      default:
-        console.warn("[Data] Extra key:", key, "value:", value);
-        dataRaw.extras.push([key, value]);
-    }
+function applyTanitaValue(
+  raw: Partial<TanitaRaw>,
+  key: string,
+  value: string,
+  allowedSymbols: Set<TanitaSymbol>,
+): boolean {
+  if (!isTanitaSymbol(key) || !allowedSymbols.has(key)) {
+    return false;
   }
 
-  return dataRaw;
+  const strategy = tanitaSymbolsToJsStrategy[key];
+  const writableRaw = raw as Record<TanitaRawKey, TanitaRawValue>;
+
+  writableRaw[strategy.key] = strategy.parse(value);
+
+  return true;
 }
 
-function profileFromRawProfieFileString(raw: string): Profile | null {
-  const row = parseProfileCsvRow(raw);
-  const birthDate = parseDateDmy(row.birthDateDmy);
+function profileFromRawProfieFileString(
+  rawProfileString: string,
+): Profile | null {
+  const entries = rawProfileString.split(",");
+  const rawProfile = createDefaultProfileRaw();
+
+  for (let keyPointer = 0; keyPointer + 1 < entries.length; keyPointer += 2) {
+    const key = (entries[keyPointer] as TanitaSymbol) ?? ("" as TanitaSymbol);
+    const value = entries[keyPointer + 1] ?? "";
+
+    if (applyTanitaValue(rawProfile, key, value, profileTanitaSymbols)) {
+      continue;
+    }
+
+    console.warn("[Profile] Extra key:", key, "value:", value);
+  }
+
+  const birthDate = parseDateDmy(rawProfile.birthDateDmy);
 
   if (birthDate === null) {
     return null;
@@ -282,10 +350,10 @@ function profileFromRawProfieFileString(raw: string): Profile | null {
 
   return {
     birthDate,
-    bodyTypeCode: row.bodyTypeCode,
-    activityLevelCode: row.activityLevelCode,
-    heightCm: row.heightCm,
-    gender: genderFromCode(row.genderCode),
+    bodyTypeCode: rawProfile.bodyTypeCode,
+    activityLevelCode: rawProfile.activityLevelCode,
+    heightCm: rawProfile.heightCm,
+    gender: genderFromCode(rawProfile.genderCode),
   };
 }
 
@@ -297,7 +365,21 @@ function measurementsFromRawDataFileString(raw: string): Measurement[] {
   const measurements: Measurement[] = [];
 
   for (const row of rows) {
-    const rawMeasure = parseDataCsvRow(row);
+    const entries = row.split(",");
+    const rawMeasure = createDefaultDataRaw();
+
+    for (let keyPointer = 0; keyPointer + 1 < entries.length; keyPointer += 2) {
+      const key = entries[keyPointer] ?? "";
+      const value = entries[keyPointer + 1] ?? "";
+
+      if (applyTanitaValue(rawMeasure, key, value, dataTanitaSymbols)) {
+        continue;
+      }
+
+      console.warn("[Data] Extra key:", key, "value:", value);
+      rawMeasure.extras.push([key, value]);
+    }
+
     const measuredAt = parseDateTimeDmyHms(
       rawMeasure.dateDmy,
       rawMeasure.timeHms,
