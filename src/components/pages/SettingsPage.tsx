@@ -2,7 +2,7 @@ import {
   useExport,
   useHandleTanitaFolderOpen,
   useImport,
-} from "../../hooks/useHandleTanitaFolderOpen";
+} from "../../hooks/useTanitaDocuments";
 import { usePwaInstallPrompt } from "../../hooks/usePwaInstallPrompt";
 import { useToast } from "../Toast";
 import { Badge } from "../ui/Badge";

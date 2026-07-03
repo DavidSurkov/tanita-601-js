@@ -10,7 +10,7 @@ export type RawUserRecord = {
   data: string;
 };
 
-type ProfRaw = {
+type ProfInitialyParsed = {
   model: string;
   birthDateDmy: string;
   bodyTypeCode: number;
@@ -20,7 +20,7 @@ type ProfRaw = {
   checksum: string;
 };
 
-type DataRaw = {
+type DataIntialyParsed = {
   model: string;
   dateDmy: string;
   timeHms: string;
@@ -104,10 +104,10 @@ type TanitaPair = {
   data: File;
 };
 
-type TanitaRaw = ProfRaw & Omit<DataRaw, "extras">;
-type TanitaRawKey = keyof TanitaRaw;
-type TanitaRawValue = TanitaRaw[TanitaRawKey];
-type TanitaSymbol = keyof typeof tanitaSymbolsToJsStrategy;
+type TanitaParsed = ProfInitialyParsed & Omit<DataIntialyParsed, "extras">;
+type TanitaParsedKey = keyof TanitaParsed;
+type TanitaParsedValue = TanitaParsed[TanitaParsedKey];
+type TanitaSymbol = keyof typeof tanitaCSVColumnToJsStrategy;
 
 function getId(fileName: string): number | null {
   const name = fileName.toUpperCase();
@@ -137,7 +137,7 @@ function getId(fileName: string): number | null {
   return Number.isInteger(id) ? id : null;
 }
 
-const tanitaSymbolsToJsStrategy = {
+const tanitaCSVColumnToJsStrategy = {
   MO: {
     key: "model",
     parse: (value: string) => unquote(value),
@@ -257,8 +257,8 @@ const tanitaSymbolsToJsStrategy = {
 } satisfies Record<
   string,
   {
-    key: TanitaRawKey;
-    parse: (value: string) => TanitaRawValue;
+    key: TanitaParsedKey;
+    parse: (value: string) => TanitaParsedValue;
   }
 >;
 
@@ -304,11 +304,11 @@ const dataTanitaSymbols = new Set<TanitaSymbol>([
 ]);
 
 function isTanitaSymbol(key: string): key is TanitaSymbol {
-  return key in tanitaSymbolsToJsStrategy;
+  return key in tanitaCSVColumnToJsStrategy;
 }
 
 function applyTanitaValue(
-  raw: Partial<TanitaRaw>,
+  accumulator: Partial<TanitaParsed>,
   key: string,
   value: string,
   allowedSymbols: Set<TanitaSymbol>,
@@ -317,10 +317,13 @@ function applyTanitaValue(
     return false;
   }
 
-  const strategy = tanitaSymbolsToJsStrategy[key];
-  const writableRaw = raw as Record<TanitaRawKey, TanitaRawValue>;
+  const strategy = tanitaCSVColumnToJsStrategy[key];
+  const writableAccumulator = accumulator as Record<
+    TanitaParsedKey,
+    TanitaParsedValue
+  >;
 
-  writableRaw[strategy.key] = strategy.parse(value);
+  writableAccumulator[strategy.key] = strategy.parse(value);
 
   return true;
 }
@@ -419,7 +422,7 @@ function measurementsFromRawDataFileString(raw: string): Measurement[] {
   return measurements;
 }
 
-function createDefaultProfileRaw(): ProfRaw {
+function createDefaultProfileRaw(): ProfInitialyParsed {
   return {
     model: "",
     birthDateDmy: "",
@@ -431,7 +434,7 @@ function createDefaultProfileRaw(): ProfRaw {
   };
 }
 
-function createDefaultDataRaw(): DataRaw {
+function createDefaultDataRaw(): DataIntialyParsed {
   return {
     model: "",
     dateDmy: "",

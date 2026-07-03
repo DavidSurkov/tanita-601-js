@@ -4,7 +4,7 @@ import { Heading } from "../wrappers/Heading";
 import { Stack } from "../wrappers/Stack";
 import { Text } from "../wrappers/Text";
 import { useUserMeasurements } from "../../context";
-import { useHandleTanitaFolderOpen } from "../../hooks/useHandleTanitaFolderOpen";
+import { useHandleTanitaFolderOpen } from "../../hooks/useTanitaDocuments";
 import { formatDate } from "../../helpers/date-time";
 import { Table } from "../ui/Table";
 
